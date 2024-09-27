@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Appointment>
+
+@(Html.DevExtreme().Scheduler()
+    .ID("scheduler")
+    //.DataSource(d => d.Mvc()
+    //    .Controller("Calendar")
+    //    .LoadAction("Get")
+    //    .InsertAction("InsertItem")
+    //    .UpdateAction("UpdateItem")
+    //    .DeleteAction("DeleteItem")
+    //    .Key("Oid")
+    //)
+    .DataSource(Model)
+    //.TimeZone("America/Los_Angeles")
+    .Views(new[] {
+        SchedulerViewType.Day,
+        SchedulerViewType.Week
+    })
+    .CurrentView(SchedulerViewType.Week)
+    .CurrentDate(DateTime.Now)
+    .StartDayHour(9)
+    .EndDayHour(19)
+    .Height(600)
+    .Editing(editing =>
+    {
+        editing.AllowAdding(true);
+        editing.AllowDeleting(true);
+        editing.AllowUpdating(true);
+        editing.AllowResizing(true);
+        editing.AllowDragging(true);
+    })
+    .Resources(res =>
+    {
+        res.Add()
+            .FieldExpr("PatientId")
+            .Label("Patient")
+            .UseColorAsDefault(true)
+            .DataSource(new[] {
+                new { id = 1, text = "Samantha Bright" },
+                new { id = 2, text = "John Heart" },
+                new { id = 3, text = "Todd Hoffman" },
+                new { id = 4, text = "Sandra Johnson" }
+            });
+        //.DataSource(d => d.Mvc()
+        //        .Controller("Home")
+        //        .LoadAction("PatientLookup")
+        //        .LoadMode(DataSourceLoadMode.Raw)
+        //        .Key("Oid")
+        //    )
+        //    .ValueExpr("Oid")
+        //    .DisplayExpr("FullName");
+    })
+    .TextExpr("PatientName")
+    .StartDateExpr("Date")
+    .EndDateExpr("EndDate")
+    .AllDayExpr("AllDayEvent")
+    .OnAppointmentAdded(@<text>
+            function(e) {
+            showToast("Added", e.appointmentData.Text, "success");
+            }
+    </text>)
+.OnAppointmentUpdated(@<text>
+            function(e) {
+            showToast("Updated", e.appointmentData.Text, "info");
+            }
+</text>)
+.OnAppointmentDeleted(@<text>
+        function(e) {
+        showToast("Deleted", e.appointmentData.Text, "warning");
+        }
+</text>)
+)
+
+<script>
+    function getSchedulerInstance() {
+        return $("#scheduler").dxScheduler("instance");
+    }
+
+    function showToast(event, value, type) {
+        DevExpress.ui.notify(event + " \"" + value + "\"" + " task", type, 800);
+    }
+</script>
