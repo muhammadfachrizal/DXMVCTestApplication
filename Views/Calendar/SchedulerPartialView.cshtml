@@ -29,44 +29,44 @@
         editing.AllowResizing(true);
         editing.AllowDragging(true);
     })
-    .Resources(res =>
-    {
-        res.Add()
-            .FieldExpr("PatientId")
-            .Label("Patient")
-            .UseColorAsDefault(true)
-            .DataSource(new[] {
-                new { id = 1, text = "Samantha Bright" },
-                new { id = 2, text = "John Heart" },
-                new { id = 3, text = "Todd Hoffman" },
-                new { id = 4, text = "Sandra Johnson" }
-            });
-        //.DataSource(d => d.Mvc()
-        //        .Controller("Home")
-        //        .LoadAction("PatientLookup")
-        //        .LoadMode(DataSourceLoadMode.Raw)
-        //        .Key("Oid")
-        //    )
-        //    .ValueExpr("Oid")
-        //    .DisplayExpr("FullName");
-    })
+    //.Resources(res =>
+    //{
+    //    res.Add()
+    //        .FieldExpr("PatientId")
+    //        .Label("Patient")
+    //        .UseColorAsDefault(true)
+    //        .DataSource(new[] {
+    //            new { id = 1, text = "Samantha Bright" },
+    //            new { id = 2, text = "John Heart" },
+    //            new { id = 3, text = "Todd Hoffman" },
+    //            new { id = 4, text = "Sandra Johnson" }
+    //        });
+    //    //.DataSource(d => d.Mvc()
+    //    //        .Controller("Home")
+    //    //        .LoadAction("PatientLookup")
+    //    //        .LoadMode(DataSourceLoadMode.Raw)
+    //    //        .Key("Oid")
+    //    //    )
+    //    //    .ValueExpr("Oid")
+    //    //    .DisplayExpr("FullName");
+    //})
     .TextExpr("PatientName")
     .StartDateExpr("Date")
     .EndDateExpr("EndDate")
     .AllDayExpr("AllDayEvent")
     .OnAppointmentAdded(@<text>
             function(e) {
-            showToast("Added", e.appointmentData.Text, "success");
+            showToast("Added", e.appointmentData.PatientName, "success");
             }
     </text>)
 .OnAppointmentUpdated(@<text>
             function(e) {
-            showToast("Updated", e.appointmentData.Text, "info");
+            showToast("Updated", e.appointmentData.PatientName, "info");
             }
 </text>)
 .OnAppointmentDeleted(@<text>
         function(e) {
-        showToast("Deleted", e.appointmentData.Text, "warning");
+        showToast("Deleted", e.appointmentData.PatientName, "warning");
         }
 </text>)
 )
